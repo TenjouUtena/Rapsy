@@ -13,7 +13,6 @@ module Raspy
     attr_accessor :sprites
     attr_accessor :ui
     attr_accessor :timer
-    attr_accessor :multithread
     attr_accessor :input_handler
     attr_accessor :debug
     
@@ -37,7 +36,6 @@ module Raspy
       self.timer = Raspy::Timer.new
       self.sprites = []
       
-      self.multithread = true
       self.input_handler = nil
       self.debug = false
     end

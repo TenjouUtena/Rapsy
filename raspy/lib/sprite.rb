@@ -6,11 +6,12 @@ module Raspy
     attr_accessor :window
     
     def update_logic(delta)
-      
+    end
+    
+    def update_position(delta)
     end
     
     def update(delta)
-      
     end
     
     def render
@@ -29,39 +30,16 @@ module Raspy
       
     end
     
-    def threaded
-      self.sprites.each { |sprite|
-        t = Thread.new {
-          yield sprite if block_given?
-        }
-        ##t.run
-        @threads.add t
-        }
-      @threads.list.each { |t| t.join() }
-    end
-    
     def update_logic(delta)
-      if @window.multithread
-        threaded { |s| s.update_logic(delta) }
-      else
-        self.sprites.each { |s| s.update_logic(delta) }
-      end
+      self.sprites.each { |s| s.update_logic(delta) }
     end
     
     def update_position(delta)
-      if @window.multithread
-        threaded { |s| s.update_position(delta) }
-      else
-        self.sprites.each { |s| s.update_position(delta) }
-      end
+      self.sprites.each { |s| s.update_position(delta) }
     end
     
     def update(delta)
-      if @window.multithread
-        threaded { |s| s.update(delta) }
-      else
-        self.sprites.each { |s| s.update(delta) }
-      end
+      self.sprites.each { |s| s.update(delta) }
     end
     
     def render
