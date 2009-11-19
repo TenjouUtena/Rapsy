@@ -14,21 +14,19 @@ module Raspy
       @pause_accum = 0
       @paused = false
       @lasttick = 0
-      @lastelapse = 0
+      @lastelapsed = 0
       @elpasedelta = 0
-
+      #@window.debugtext += "Elapsed: #{self.elapsed}\nTicks: #{self.ticks}\nLastTick: #{self.lasttick}\nElapseDelta: #{self.elapsedelta}"
     end
     
     def tick
       delta = Gosu::milliseconds - @ticks
+      
+      
       @lasttick = delta
       @ticks += delta
       @pause_ticks += delta unless @paused
-      begin
-        @elapsedelta = elapsed - @lastelapsed
-      rescue
-      end
-      
+      @elapsedelta = elapsed - @lastelapsed
       @lastelapsed = elapsed
       @lasttick
     end

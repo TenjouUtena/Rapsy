@@ -15,6 +15,7 @@ module Raspy
     attr_accessor :timer
     attr_accessor :input_handler
     attr_accessor :debug
+    attr_accessor :debugtext
     
     def initialize(x=640, y=480, fullscreen=false, refresh=20)
       super(x,y,fullscreen,refresh)
@@ -25,6 +26,7 @@ module Raspy
       self.refresh = refresh
       
       @debugfont = Gosu::Font.new(self, 'Ariel', 18)
+      self.debugtext = "DEBUG:\n"
       
       reset
       
@@ -33,7 +35,7 @@ module Raspy
     
     def reset
       self.ui = nil
-      self.timer = Raspy::Timer.new
+      self.timer = Raspy::Timer.new(self)
       self.sprites = []
       
       self.input_handler = nil
@@ -71,10 +73,7 @@ module Raspy
       self.sprites.each {|s| s.update(delta)}
       
       if self.debug
-        @debugfont.draw_rel("Elapsed: #{self.timer.elapsed}", self.screen_x-10, 10, 999, 1.0, 0.0)
-        @debugfont.draw_rel("Ticks: #{self.timer.ticks}", self.screen_x-10, 30, 999, 1.0, 0.0)
-        @debugfont.draw_rel("LastTick: #{self.timer.lasttick}", self.screen_x-10, 50, 999, 1.0, 0.0)
-        @debugfont.draw_rel("ElapseDelta: #{self.timer.elapsedelta}", self.screen_x-10, 70, 999, 1.0, 0.0)
+        @debugfont.draw_rel(debugtext, self.screen_x-10, 10, 999, 1.0, 0.0)
       end
     end
     
