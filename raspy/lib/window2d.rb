@@ -25,8 +25,9 @@ module Raspy
       self.fullscreen = fullscreen
       self.refresh = refresh
       
-      @debugfont = Gosu::Font.new(self, 'Ariel', 18)
-      self.debugtext = "DEBUG:\n"
+      @debugfont = Gosu::Font.new(self, 'Ariel', 10)
+      self.debugtext = []
+      self.debugtext.push "DEBUG:\n"
       
       reset
       
@@ -73,8 +74,15 @@ module Raspy
       self.sprites.each {|s| s.update(delta)}
       
       if self.debug
-        @debugfont.draw_rel(debugtext, self.screen_x-10, 10, 999, 1.0, 0.0)
+        offset = 10
+        @debugtext.each{ |tex| @debugfont.draw_rel(tex, self.screen_x-10, offset, 999, 1.0, 0.0); offset += 12}
+        @debugtext.clear
+        @debugtext.push("DEBUG:")
       end
+    end
+    
+    def add_debug(line)
+      self.debugtext.push(line)
     end
     
     def draw
