@@ -16,6 +16,9 @@ module Raspy
     attr_accessor :input_handler
     attr_accessor :debug
     attr_accessor :debugtext
+    attr_accessor :viewport
+    attr_accessor :map
+    
     
     def initialize(x=640, y=480, fullscreen=false, refresh=20)
       super(x,y,fullscreen,refresh)
@@ -31,13 +34,15 @@ module Raspy
       
       reset
       
-      self.caption = 'Hello World!'
+      self.caption = "Please set me, I'm lonely"
     end
     
     def reset
       self.ui = nil
       self.timer = Raspy::Timer.new(self)
       self.sprites = []
+      self.map = nil
+      self.viewport = nil
       
       self.input_handler = nil
       self.debug = false
@@ -86,6 +91,7 @@ module Raspy
     end
     
     def draw
+      self.map.render self.viewport if self.map
       self.sprites.each {|s| s.render}
     end
     

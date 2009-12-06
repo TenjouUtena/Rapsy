@@ -14,7 +14,7 @@ module Raspy
     def update(delta)
     end
     
-    def render
+    def render(viewport = nil)
     end
     
   end
@@ -42,8 +42,8 @@ module Raspy
       self.sprites.each { |s| s.update(delta) }
     end
     
-    def render
-      self.sprites.each { |s| s.render }
+    def render(viewport = nil)
+      self.sprites.each { |s| s.render(viewport) }
     end
     
     def push(sprite)
