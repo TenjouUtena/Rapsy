@@ -17,6 +17,13 @@ module Raspy
     def render(viewport = nil)
     end
     
+    def convert(coords)
+      retary = []
+      retary.push(coords[0] - window.viewport.x)
+      retary.push(coords[1] - window.viewport.y)
+      retary
+    end
+    
   end
   
   class SpriteGroup
@@ -42,8 +49,8 @@ module Raspy
       self.sprites.each { |s| s.update(delta) }
     end
     
-    def render(viewport = nil)
-      self.sprites.each { |s| s.render(viewport) }
+    def render()
+      self.sprites.each { |s| s.render }
     end
     
     def push(sprite)

@@ -77,12 +77,14 @@ module Raspy
       self.sprites.each {|s| s.update_logic(self.timer.elapsedelta)} if not self.paused?
       self.sprites.each {|s| s.update_position(self.timer.elapsedelta)} if not self.paused?
       self.sprites.each {|s| s.update(delta)}
+      self.input_handler.update if self.input_handler
       
       if self.debug
         offset = 10
-        @debugtext.each{ |tex| @debugfont.draw_rel(tex, self.screen_x-10, offset, 999, 1.0, 0.0); offset += 12}
+        @debugtext.each{ |tex| @debugfont.draw_rel(tex, self.screen_x-10, offset, 999, 1.0, 0.0,1,1,0xFF000000); offset += 12}
         @debugtext.clear
         @debugtext.push("DEBUG:")
+        @debugtext.push("LastTick: #{self.timer.lasttick}")
       end
     end
     
@@ -91,7 +93,7 @@ module Raspy
     end
     
     def draw
-      self.map.render self.viewport if self.map
+      self.map.render(self) if self.map
       self.sprites.each {|s| s.render}
     end
     

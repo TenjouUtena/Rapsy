@@ -10,5 +10,7 @@ module Raspy
     end
     def button_down?(id)
     end
+    def update(delta)
+    end
   end
 end

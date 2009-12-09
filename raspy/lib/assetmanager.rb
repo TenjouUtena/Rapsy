@@ -17,8 +17,9 @@ module Raspy
     end
     
     def get_image(filename, window)
-      if !@images.has_key? filename
-        @images[filename] = Gosu::Image.new(window, filename, false)
+      if not (@images.has_key? filename)
+        filepath = find_file(filename)
+        @images[filename] = Gosu::Image.new(window, filepath, false)
       end
       @images[filename]
     end

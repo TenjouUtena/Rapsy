@@ -13,6 +13,7 @@ module Raspy
       @y = yy
       @tile = ttile
     end
+    
   end
   
   class Map
@@ -23,7 +24,8 @@ module Raspy
       @tileset = tileset
       @tile_x = 0
       @tile_y = 0
-      @tiles = []
+      @tiles = {}
+      @todraw = []
     end
     
     def set_tile_size
@@ -47,18 +49,44 @@ module Raspy
       tile = @tileset.get(symbol)
       @tile_x.downto(0) { |x|
         @tile_y.downto(0) { |y|
-          mt = Raspy::MapTile(x,y,tile)
-          @tiles.push mt
+          mt = Raspy::MapTile.new(x,y,tile)
+          @tiles["#{x},#{y}"] =  mt
           }
         }
     end
+    
+    def convert(tile, viewport)
+      retary = []
+      retary.push((tile.x*@tileset.size) - viewport.x)
+      retary.push((tile.y*@tileset.size) - viewport.y)
+      retary
+      
+    end
+    
+    def render(window)
+      mapxs = (window.viewport.xsize / @tileset.size) + 1
+      mapys = (window.viewport.ysize / @tileset.size) + 1
+      mapx = (Integer(window.viewport.x) / @tileset.size)
+      mapy = (Integer(window.viewport.y) / @tileset.size)
+
+      mapx.upto(mapx+mapxs) { |x|
+        mapy.upto(mapy+mapys) { |y|
+          tile = @tiles["#{x},#{y}"]
+          if tile
+            rr = convert(tile, window.viewport)
+            $assets.get_image(tile.tile.filename, window).draw(rr[0],rr[1],0) if window.viewport.render?(rr, @tileset.size)
+          end
+        }
+      }
+    end
+    
   end
   
   class TileSet
     attr :size
     def initialize
       @tiles = {}
-      @size = 16
+      @size = 32
     end
     
     def add(tilespc)

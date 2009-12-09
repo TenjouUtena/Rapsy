@@ -9,17 +9,37 @@ module Raspy
   class Viewport
     attr :x
     attr :y
+    attr :xsize
+    attr :ysize
     
     def initialize(mapx, mapy, xsize=800, ysize=600 )
       @mapx = mapx
       @mapy = mapy
       @xsize = xsize
       @ysize = ysize
+      @x=0
+      @y=0
       
       if (mapx < xsize) or (mapy < ysize)
         raise MapTooSmallError
       end
       
+    end
+    
+    def render?(arry, size)
+      if arry[0]+size < 0
+        return false
+      end
+      if arry[1]+size < 0
+        return false
+      end
+      if arry[0]>@xsize
+        return false
+      end
+      if arry[1]>@ysize
+        return false
+      end
+      true
     end
     
     def normalize
